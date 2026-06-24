@@ -2,13 +2,13 @@
 #include "DisplayBoard.h"
 #include "MenuSystem.h"
 
-// ST7789 Display 1 configuration class
-class LGFX_Display1 : public lgfx::LGFX_Device {
+// Parameterized ST7789 display configuration class
+class LGFX_Display : public lgfx::LGFX_Device {
   lgfx::Panel_ST7789 _panel;
   lgfx::Bus_SPI _bus;
 
 public:
-  LGFX_Display1(void) {
+  LGFX_Display(int pinDc, int pinCs, int pinRst) {
     {
       auto cfg = _bus.config();
 
@@ -23,7 +23,7 @@ public:
       cfg.pin_sclk = 18;
       cfg.pin_mosi = 23;
       cfg.pin_miso = -1;
-      cfg.pin_dc = 2;
+      cfg.pin_dc = pinDc;
 
       _bus.config(cfg);
     }
@@ -31,56 +31,8 @@ public:
     {
       auto cfg = _panel.config();
 
-      cfg.pin_cs  = 5;
-      cfg.pin_rst = 4;
-      cfg.pin_busy = -1;
-
-      cfg.memory_width  = 240;
-      cfg.memory_height = 320;
-      cfg.panel_width   = 240;
-      cfg.panel_height  = 320;
-      cfg.offset_x = 0;
-      cfg.offset_y = 0;
-
-      _panel.config(cfg);
-    }
-
-    _panel.setBus(&_bus);
-    setPanel(&_panel);
-  }
-};
-
-// ST7789 Display 2 configuration class
-class LGFX_Display2 : public lgfx::LGFX_Device {
-  lgfx::Panel_ST7789 _panel;
-  lgfx::Bus_SPI _bus;
-
-public:
-  LGFX_Display2(void) {
-    {
-      auto cfg = _bus.config();
-
-      cfg.spi_host = SPI2_HOST;
-      cfg.spi_mode = 0;
-      cfg.freq_write = 40000000;
-      cfg.freq_read  = 16000000;
-      cfg.spi_3wire  = false;
-      cfg.use_lock   = true;
-      cfg.dma_channel = 1;
-
-      cfg.pin_sclk = 18;
-      cfg.pin_mosi = 23;
-      cfg.pin_miso = -1;
-      cfg.pin_dc = 15;
-
-      _bus.config(cfg);
-    }
-
-    {
-      auto cfg = _panel.config();
-
-      cfg.pin_cs  = 14;
-      cfg.pin_rst = 12;
+      cfg.pin_cs  = pinCs;
+      cfg.pin_rst = pinRst;
       cfg.pin_busy = -1;
 
       cfg.memory_width  = 240;
@@ -99,8 +51,8 @@ public:
 };
 
 // Global objects
-LGFX_Display1 display1;
-LGFX_Display2 display2;
+LGFX_Display display1(2, 5, 4);
+LGFX_Display display2(15, 14, 12);
 
 // Encoder objects
 RotaryEncoder encoder1(21, 22, 26);  // A, B, PUSH for display 1
