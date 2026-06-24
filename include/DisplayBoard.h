@@ -20,6 +20,10 @@ private:
     int8_t backlightPin;
     bool backlightOn;
     String boardName;
+    MenuSystem* boundMenu;
+    int encoderLastPos;
+    int encoderRemainder;
+    int encoderCountsPerStep;
     
 public:
     /**
@@ -41,6 +45,18 @@ public:
      * @brief Update the board state (call in loop)
      */
     void update();
+
+    /**
+     * @brief Bind a menu to this board's encoder handling.
+     * @param menu Pointer to the menu controlled by this board's encoder
+     * @param countsPerStep Encoder counts required for one menu step
+     */
+    void bindMenu(MenuSystem* menu, int countsPerStep = 2);
+
+    /**
+     * @brief Process encoder rotation and button events for the bound menu.
+     */
+    void processEncoderInput();
     
     /**
      * @brief Get the display object

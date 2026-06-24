@@ -233,12 +233,22 @@ void test_change_value_only_affects_value_items() {
     TEST_ASSERT_EQUAL(55, brightness);
     TEST_ASSERT_TRUE(menu.needsRedraw());
 
+<<<<<<< HEAD
     menu.redraw();
+=======
+    // Manually clear the flag (white-box access) since update() requires valid board/encoder
+    menu._needsRedraw = false;
+>>>>>>> 2bf78f3fb220d3f5bc5c9128ee644021a3d3e3ca
     menu.changeValue(-1);
     TEST_ASSERT_EQUAL(50, brightness);
     TEST_ASSERT_TRUE(menu.needsRedraw());
 
+<<<<<<< HEAD
     menu.redraw();
+=======
+    // Manually clear the flag again before testing non-VALUE item
+    menu._needsRedraw = false;
+>>>>>>> 2bf78f3fb220d3f5bc5c9128ee644021a3d3e3ca
     menu.selectedIndex = 1;
     menu.changeValue(1);
     TEST_ASSERT_FALSE(menu.needsRedraw());

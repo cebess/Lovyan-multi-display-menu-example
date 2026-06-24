@@ -28,7 +28,8 @@
 DisplayBoard::DisplayBoard(lgfx::LGFX_Device* displayPtr, RotaryEncoder* encoderPtr,
                            int8_t blPin, const String& name)
     : display(displayPtr), encoder(encoderPtr), backlightPin(blPin),
-      backlightOn(true), boardName(name) {}
+    backlightOn(true), boardName(name), boundMenu(nullptr),
+    encoderLastPos(0), encoderRemainder(0), encoderCountsPerStep(2) {}
 
 /**
  * Function: DisplayBoard::begin()
@@ -72,6 +73,51 @@ void DisplayBoard::begin() {
 void DisplayBoard::update() {
     if (encoder) {
         encoder->update();
+    }
+}
+
+void DisplayBoard::bindMenu(MenuSystem* menu, int countsPerStep) {
+    boundMenu = menu;
+    encoderCountsPerStep = countsPerStep > 0 ? countsPerStep : 1;
+    encoderRemainder = 0;
+    encoderLastPos = encoder ? encoder->getPosition() : 0;
+}
+
+void DisplayBoard::processEncoderInput() {
+    if (!encoder || !boundMenu) {
+        return;
+    }
+
+    int currentPos = encoder->getPosition();
+    if (currentPos != encoderLastPos) {
+        int diff = currentPos - encoderLastPos;
+        encoderRemainder += diff;
+
+        if (boundMenu->isEditingValue()) {
+            while (encoderRemainder >= encoderCountsPerStep) {
+                boundMenu->changeValue(1);
+                encoderRemainder -= encoderCountsPerStep;
+            }
+            while (encoderRemainder <= -encoderCountsPerStep) {
+                boundMenu->changeValue(-1);
+                encoderRemainder += encoderCountsPerStep;
+            }
+        } else {
+            while (encoderRemainder >= encoderCountsPerStep) {
+                boundMenu->selectDown();
+                encoderRemainder -= encoderCountsPerStep;
+            }
+            while (encoderRemainder <= -encoderCountsPerStep) {
+                boundMenu->selectUp();
+                encoderRemainder += encoderCountsPerStep;
+            }
+        }
+
+        encoderLastPos = currentPos;
+    }
+
+    if (encoder->isButtonPressed()) {
+        boundMenu->selectCurrentItem();
     }
 }
 
@@ -119,45 +165,5 @@ void DisplayBoard::toggleBacklight() {
 void DisplayBoard::clearDisplay() {
     if (display) {
         display->fillScreen(TFT_BLACK);
-    }
-}
-/**
- * Processes rotary encoder input and updates the corresponding menu system.
- * 
- * Parameters:
- * enc Pointer to the RotaryEncoder hardware object.
- *  menu Reference to the MenuSystem instance to update.
- *  lastPos Reference to a persistent variable storing the last known position.
- *  remainder Reference to a persistent variable tracking encoder counts beyond steps.
- */
-void processEncoder(RotaryEncoder* enc, MenuSystem& menu, int& lastPos, int& remainder, int stepsPerMenuStep) {
-    if (!enc) return;
-    int currentPos = enc->getPosition();
-    if (currentPos != lastPos) {
-        int diff = currentPos - lastPos;
-        remainder += diff;
-        if (menu.isEditingValue()) {
-            while (remainder >= stepsPerMenuStep) {
-                menu.changeValue(1);
-                remainder -= stepsPerMenuStep;
-            }
-            while (remainder <= -stepsPerMenuStep) {
-                menu.changeValue(-1);
-                remainder += stepsPerMenuStep;
-            }
-        } else {
-            while (remainder >= stepsPerMenuStep) {
-                menu.selectDown();
-                remainder -= stepsPerMenuStep;
-            }
-            while (remainder <= -stepsPerMenuStep) {
-                menu.selectUp();
-                remainder += stepsPerMenuStep;
-            }
-        }
-        lastPos = currentPos;
-    }
-    if (enc->isButtonPressed()) {
-        menu.selectCurrentItem();
     }
 }
