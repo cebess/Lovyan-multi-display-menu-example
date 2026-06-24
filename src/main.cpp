@@ -151,6 +151,21 @@ void setup() {
   // Initialize boards
   board1.begin();
   board2.begin();
+ 
+  // // Show initial messages
+  // display1.setCursor(10, 50);
+  // display1.setTextColor(TFT_GREEN);
+  // display1.println("Rotate encoder");
+  // display1.println("to navigate menu");
+  // display1.println("Press to select");
+  
+  // display2.setCursor(10, 50);
+  // display2.setTextColor(TFT_CYAN);
+  // display2.println("Rotate encoder");
+  // display2.println("to navigate menu");
+  // display2.println("Press to select");
+  
+  // delay(2000);
   
   // Setup menus
   setupMenu1();
@@ -167,21 +182,6 @@ void setup() {
   menu1.begin();
   menu2.begin();
 
-  
-  // Show initial messages
-  display1.setCursor(10, 50);
-  display1.setTextColor(TFT_GREEN);
-  display1.println("Rotate encoder");
-  display1.println("to navigate menu");
-  display1.println("Press to select");
-  
-  display2.setCursor(10, 50);
-  display2.setTextColor(TFT_CYAN);
-  display2.println("Rotate encoder");
-  display2.println("to navigate menu");
-  display2.println("Press to select");
-  
-  delay(2000);
   menu1.redraw();
   menu2.redraw();
 }
@@ -207,13 +207,24 @@ void loop() {
     if (currentPos != lastPos1) {
       int diff = currentPos - lastPos1;
       encRemainder1 += diff;
-      while (encRemainder1 >= ENCODER_COUNTS_PER_MENU_STEP) {
-        menu1.selectDown();
-        encRemainder1 -= ENCODER_COUNTS_PER_MENU_STEP;
-      }
-      while (encRemainder1 <= -ENCODER_COUNTS_PER_MENU_STEP) {
-        menu1.selectUp();
-        encRemainder1 += ENCODER_COUNTS_PER_MENU_STEP;
+      if (menu1.isEditingValue()) {
+        while (encRemainder1 >= ENCODER_COUNTS_PER_MENU_STEP) {
+          menu1.changeValue(1);
+          encRemainder1 -= ENCODER_COUNTS_PER_MENU_STEP;
+        }
+        while (encRemainder1 <= -ENCODER_COUNTS_PER_MENU_STEP) {
+          menu1.changeValue(-1);
+          encRemainder1 += ENCODER_COUNTS_PER_MENU_STEP;
+        }
+      } else {
+        while (encRemainder1 >= ENCODER_COUNTS_PER_MENU_STEP) {
+          menu1.selectDown();
+          encRemainder1 -= ENCODER_COUNTS_PER_MENU_STEP;
+        }
+        while (encRemainder1 <= -ENCODER_COUNTS_PER_MENU_STEP) {
+          menu1.selectUp();
+          encRemainder1 += ENCODER_COUNTS_PER_MENU_STEP;
+        }
       }
       lastPos1 = currentPos;
     }
@@ -231,13 +242,24 @@ void loop() {
     if (currentPos != lastPos2) {
       int diff = currentPos - lastPos2;
       encRemainder2 += diff;
-      while (encRemainder2 >= ENCODER_COUNTS_PER_MENU_STEP) {
-        menu2.selectDown();
-        encRemainder2 -= ENCODER_COUNTS_PER_MENU_STEP;
-      }
-      while (encRemainder2 <= -ENCODER_COUNTS_PER_MENU_STEP) {
-        menu2.selectUp();
-        encRemainder2 += ENCODER_COUNTS_PER_MENU_STEP;
+      if (menu2.isEditingValue()) {
+        while (encRemainder2 >= ENCODER_COUNTS_PER_MENU_STEP) {
+          menu2.changeValue(1);
+          encRemainder2 -= ENCODER_COUNTS_PER_MENU_STEP;
+        }
+        while (encRemainder2 <= -ENCODER_COUNTS_PER_MENU_STEP) {
+          menu2.changeValue(-1);
+          encRemainder2 += ENCODER_COUNTS_PER_MENU_STEP;
+        }
+      } else {
+        while (encRemainder2 >= ENCODER_COUNTS_PER_MENU_STEP) {
+          menu2.selectDown();
+          encRemainder2 -= ENCODER_COUNTS_PER_MENU_STEP;
+        }
+        while (encRemainder2 <= -ENCODER_COUNTS_PER_MENU_STEP) {
+          menu2.selectUp();
+          encRemainder2 += ENCODER_COUNTS_PER_MENU_STEP;
+        }
       }
       lastPos2 = currentPos;
     }

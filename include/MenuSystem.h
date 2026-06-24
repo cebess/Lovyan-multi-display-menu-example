@@ -154,6 +154,7 @@ private:
     int topVisible;
     int visibleItems;
     bool _needsRedraw;
+    bool editingValue;  // True when in value-edit mode (press-and-rotate)
     String title;
     uint8_t fontSize;  // Font size (1-7)
     Orientation orientation;  // Display orientation
@@ -254,6 +255,12 @@ public:
      */
     Orientation getOrientation() const { return orientation; }
     
+    /**
+     * @brief Check if currently editing a value item
+     * @return true when press-and-rotate value-edit mode is active
+     */
+    bool isEditingValue() const { return editingValue; }
+
     /**
      * @brief Force menu redraw
      */

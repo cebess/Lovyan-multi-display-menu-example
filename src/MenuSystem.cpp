@@ -207,8 +207,8 @@ void MenuItem::toggle() {
  */
 MenuSystem::MenuSystem(DisplayBoard* boardPtr, const String& menuTitle)
     : board(boardPtr), currentMenu(nullptr), selectedIndex(0), 
-      topVisible(0), visibleItems(8), _needsRedraw(true), title(menuTitle),
-      fontSize(1), orientation(MenuSystem::LANDSCAPE) {
+      topVisible(0), visibleItems(8), _needsRedraw(true), editingValue(false),
+      title(menuTitle), fontSize(1), orientation(MenuSystem::LANDSCAPE) {
     // Set display rotation for landscape by default
     if (board && board->getDisplay()) {
         board->getDisplay()->setRotation(1);  // 1 = landscape
@@ -406,6 +406,8 @@ void MenuSystem::renderMenu() {
  * Warnings/constraints:
  * - Requires non-null display.
  * - Assumes item is non-null; function does not null-check item before dereference.
+ * - Value text color is orange when the item is selected and editingValue is true,
+ *   yellow when selected but not editing, green when unselected.
  */
 void MenuSystem::drawMenuItem(MenuItem* item, int index, int yPos, bool selected, int height) {
     auto display = board->getDisplay();
@@ -432,7 +434,10 @@ void MenuSystem::drawMenuItem(MenuItem* item, int index, int yPos, bool selected
     if (item->getType() == MenuItem::VALUE || item->getType() == MenuItem::TOGGLE) {
         String valueStr = item->getValueString();
         display->setCursor(display->width() - 60, yPos);
-        display->setTextColor(selected ? TFT_YELLOW : TFT_GREEN);
+        // Highlight value in orange when this item is being edited
+        uint16_t valueColor = (selected && editingValue) ? TFT_ORANGE
+                            : (selected ? TFT_YELLOW : TFT_GREEN);
+        display->setTextColor(valueColor);
         display->print(valueStr);
         display->setCursor(10, yPos);
         display->setTextColor(color);
@@ -450,9 +455,11 @@ void MenuSystem::drawMenuItem(MenuItem* item, int index, int yPos, bool selected
  * Usage example: menuSystem.goToParent();
  * Warnings/constraints:
  * - Assumes selectedStack/topVisibleStack contain entries when menuStack is non-empty.
+ * - Clears editingValue before navigating so value-edit mode does not persist across levels.
  * - Marks redraw needed.
  */
 void MenuSystem::goToParent() {
+    editingValue = false;
     if (!menuStack.empty()) {
         currentMenu = menuStack.back();
         menuStack.pop_back();
@@ -480,7 +487,8 @@ void MenuSystem::goToParent() {
  * Warnings/constraints:
  * - Returns early on null/empty menu or out-of-range selectedIndex.
  * - "Back" is recognized by item label text equality to "Back".
- * - VALUE case currently only sets redraw flag; it does not modify numeric value.
+ * - VALUE case toggles editingValue; while true, encoder rotation calls changeValue() instead of navigation.
+ * - SUBMENU case clears editingValue before descending.
  */
 void MenuSystem::selectCurrentItem() {
     if (!currentMenu || currentMenu->empty()) return;
@@ -502,6 +510,7 @@ void MenuSystem::selectCurrentItem() {
         case MenuItem::SUBMENU: {
             auto& subItems = item->getSubItems();
             if (!subItems.empty()) {
+                editingValue = false;
                 menuStack.push_back(currentMenu);
                 selectedStack.push_back(selectedIndex);
                 topVisibleStack.push_back(topVisible);
@@ -519,8 +528,8 @@ void MenuSystem::selectCurrentItem() {
             break;
             
         case MenuItem::VALUE:
-            // For VALUE type, selection enters edit mode
-            // In this example, we'll just show the value
+            // Toggle value-edit mode on each press
+            editingValue = !editingValue;
             _needsRedraw = true;
             break;
     }
