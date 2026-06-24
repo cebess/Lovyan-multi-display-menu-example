@@ -5,6 +5,8 @@
 #include "RotaryEncoder.h"
 #include <Arduino.h>
 
+// Forward declaration to avoid circular include
+class MenuSystem;
 /**
  * @brief Class for managing a display board with encoder
  * 

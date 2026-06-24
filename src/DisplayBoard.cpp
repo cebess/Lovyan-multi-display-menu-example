@@ -1,4 +1,5 @@
 #include "DisplayBoard.h"
+#include "MenuSystem.h"
 
 /**
  * @file DisplayBoard.cpp
@@ -118,5 +119,45 @@ void DisplayBoard::toggleBacklight() {
 void DisplayBoard::clearDisplay() {
     if (display) {
         display->fillScreen(TFT_BLACK);
+    }
+}
+/**
+ * Processes rotary encoder input and updates the corresponding menu system.
+ * 
+ * Parameters:
+ * enc Pointer to the RotaryEncoder hardware object.
+ *  menu Reference to the MenuSystem instance to update.
+ *  lastPos Reference to a persistent variable storing the last known position.
+ *  remainder Reference to a persistent variable tracking encoder counts beyond steps.
+ */
+void processEncoder(RotaryEncoder* enc, MenuSystem& menu, int& lastPos, int& remainder, int stepsPerMenuStep) {
+    if (!enc) return;
+    int currentPos = enc->getPosition();
+    if (currentPos != lastPos) {
+        int diff = currentPos - lastPos;
+        remainder += diff;
+        if (menu.isEditingValue()) {
+            while (remainder >= stepsPerMenuStep) {
+                menu.changeValue(1);
+                remainder -= stepsPerMenuStep;
+            }
+            while (remainder <= -stepsPerMenuStep) {
+                menu.changeValue(-1);
+                remainder += stepsPerMenuStep;
+            }
+        } else {
+            while (remainder >= stepsPerMenuStep) {
+                menu.selectDown();
+                remainder -= stepsPerMenuStep;
+            }
+            while (remainder <= -stepsPerMenuStep) {
+                menu.selectUp();
+                remainder += stepsPerMenuStep;
+            }
+        }
+        lastPos = currentPos;
+    }
+    if (enc->isButtonPressed()) {
+        menu.selectCurrentItem();
     }
 }

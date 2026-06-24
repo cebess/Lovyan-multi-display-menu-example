@@ -1,6 +1,7 @@
 #include <LovyanGFX.hpp>
 #include "DisplayBoard.h"
 #include "MenuSystem.h"
+#include "MenuConfig.h"
 
 // Parameterized ST7789 display configuration class
 class LGFX_Display : public lgfx::LGFX_Device {
@@ -66,82 +67,11 @@ DisplayBoard board2(&display2, &encoder2, 13, "Board 2");
 MenuSystem menu1(&board1, "Main Menu 1");
 MenuSystem menu2(&board2, "Main Menu 2");
 
-// Global variables for menu values
+// Global variables bound to VALUE/TOGGLE menu items via MenuBuildContext.
 int32_t brightness1 = 50;
 int32_t brightness2 = 50;
 bool autoRotate1 = false;
 bool autoRotate2 = false;
-
-// Menu callback functions
-void display1Action() {
-  display1.fillScreen(TFT_RED);
-  delay(200);
-  display1.fillScreen(TFT_BLACK);
-  menu1.redraw();
-}
-
-void display2Action() {
-  display2.fillScreen(TFT_BLUE);
-  delay(200);
-  display2.fillScreen(TFT_BLACK);
-  menu2.redraw();
-}
-
-void setupMenu1() {
-  // Create submenu items
-  auto subItems = new std::vector<MenuItem*>();
-  subItems->push_back(new MenuItem("Sub Item 1", MenuItem::ACTION, []() {
-    display1.setCursor(10, 100);
-    display1.fillRect(10, 90, 200, 20, TFT_BLACK);
-    display1.setTextColor(TFT_YELLOW);
-    display1.printf("Sub 1 Selected");
-    menu1.redraw();
-  }));
-  subItems->push_back(new MenuItem("Sub Item 2", MenuItem::ACTION, []() {
-    display1.setCursor(10, 100);
-    display1.fillRect(10, 90, 200, 20, TFT_BLACK);
-    display1.setTextColor(TFT_MAGENTA);
-    display1.printf("Sub 2 Selected");
-    menu1.redraw();
-  }));
-  
-  std::vector<MenuItem*> root1;
-  root1.push_back(new MenuItem("Flash Screen", MenuItem::ACTION, display1Action));
-  root1.push_back(new MenuItem("Sub Menu", *subItems));
-  root1.push_back(new MenuItem("Brightness", &brightness1, 0, 100, 5));
-  root1.push_back(new MenuItem("Auto Rotate", &autoRotate1));
-  root1.push_back(new MenuItem("About", MenuItem::ACTION, []() {
-    display1.fillScreen(TFT_BLACK);
-    display1.setCursor(20, 50);
-    display1.setTextColor(TFT_GREEN);
-    display1.println("Display 1 Menu");
-    display1.println("Version 1.0");
-    display1.println("Rotate to navigate");
-    display1.println("Press to select");
-    delay(1500);
-    menu1.redraw();
-  }));
-  
-  menu1.setRootMenu(root1);
-}
-
-void setupMenu2() {
-  std::vector<MenuItem*> root2;
-  root2.push_back(new MenuItem("Flash Screen", MenuItem::ACTION, display2Action));
-  root2.push_back(new MenuItem("Brightness", &brightness2, 0, 100, 5));
-  root2.push_back(new MenuItem("Auto Rotate", &autoRotate2));
-  root2.push_back(new MenuItem("Status", MenuItem::ACTION, []() {
-    display2.fillScreen(TFT_BLACK);
-    display2.setCursor(20, 50);
-    display2.setTextColor(TFT_CYAN);
-    display2.printf("Brightness: %d%%\n", brightness2);
-    display2.printf("Auto Rotate: %s\n", autoRotate2 ? "ON" : "OFF");
-    delay(1500);
-    menu2.redraw();
-  }));
-  
-  menu2.setRootMenu(root2);
-}
 
 void setup() {
   Serial.begin(115200);
@@ -167,9 +97,18 @@ void setup() {
   
   // delay(2000);
   
-  // Setup menus
-  setupMenu1();
-  setupMenu2();
+  // Build both menus from compile-time descriptor tables in MenuConfig.cpp.
+  MenuBuildContext menuContext = {
+    &display1,
+    &display2,
+    &menu1,
+    &menu2,
+    &brightness1,
+    &brightness2,
+    &autoRotate1,
+    &autoRotate2,
+  };
+  configureMenus(menuContext);
   
   // Set to landscape with font size 2 (larger text)
   menu1.setFontSize(2);
