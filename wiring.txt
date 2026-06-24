@@ -1,0 +1,29 @@
+ESP32 Pin Connections for Two Displays:
+
+Common Pins (Shared between both displays):
+- GPIO 18 (SCLK) -> SCL on both displays
+- GPIO 23 (MOSI) -> SDA on both displays
+- GND -> GND on both displays
+- 3.3V -> VCC on both displays
+
+Display 1:
+- GPIO 2  -> DC
+- GPIO 5  -> CS
+- GPIO 4  -> RES
+- GPIO 19 -> BLK (Backlight control - optional)
+- GPIO 21 -> Encoder A
+- GPIO 22 -> Encoder B
+- GPIO 26 -> Encoder PUSH
+- GPIO 27 -> KO Button
+
+Display 2:
+- GPIO 15 -> DC
+- GPIO 14 -> CS
+- GPIO 12 -> RES
+- GPIO 13 -> BLK (Backlight control - optional)
+- GPIO 32 -> Encoder A
+- GPIO 33 -> Encoder B
+- GPIO 25 -> Encoder PUSH
+- GPIO 34 -> KO Button
+
+Note: VCC can be 3.3V or 5V (the board accepts both)
