@@ -1,69 +1,46 @@
 #include "DisplayBoard.h"
 
-// RotaryEncoder Implementation
-RotaryEncoder::RotaryEncoder(uint8_t aPin, uint8_t bPin, uint8_t pushPin)
-    : pinA(aPin), pinB(bPin), pinPush(pushPin), position(0), lastPosition(0),
-      lastButtonReadTime(0), lastEncoderReadTime(0), lastButtonState(HIGH),
-      buttonPressed(false), encoderState(0) {}
-
-void RotaryEncoder::begin() {
-    pinMode(pinA, INPUT_PULLUP);
-    pinMode(pinB, INPUT_PULLUP);
-    pinMode(pinPush, INPUT_PULLUP);
-    
-    // Initialize encoder state
-    int a = digitalRead(pinA);
-    int b = digitalRead(pinB);
-    encoderState = (a << 1) | b;
-}
-
-void RotaryEncoder::update() {
-    // Read encoder state
-    int a = digitalRead(pinA);
-    int b = digitalRead(pinB);
-    int newState = (a << 1) | b;
-    
-    if (newState != encoderState) {
-        // Determine direction
-        if ((encoderState == 0b00 && newState == 0b01) ||
-            (encoderState == 0b01 && newState == 0b11) ||
-            (encoderState == 0b11 && newState == 0b10) ||
-            (encoderState == 0b10 && newState == 0b00)) {
-            position++;
-        } else if ((encoderState == 0b00 && newState == 0b10) ||
-                   (encoderState == 0b10 && newState == 0b11) ||
-                   (encoderState == 0b11 && newState == 0b01) ||
-                   (encoderState == 0b01 && newState == 0b00)) {
-            position--;
-        }
-        encoderState = newState;
-    }
-    
-    // Update button state with debouncing
-    bool currentButtonState = digitalRead(pinPush);
-    if (currentButtonState == LOW && lastButtonState == HIGH) {
-        if (millis() - lastButtonReadTime > DEBOUNCE_DELAY) {
-            buttonPressed = true;
-            lastButtonReadTime = millis();
-        }
-    }
-    lastButtonState = currentButtonState;
-}
-
-bool RotaryEncoder::isButtonPressed() {
-    if (buttonPressed) {
-        buttonPressed = false;
-        return true;
-    }
-    return false;
-}
+/**
+ * @file DisplayBoard.cpp
+ * @brief Implements display-board wrapper behavior.
+ *
+ * High-level behavior present in this file:
+ * - DisplayBoard: initializes display/encoder resources, updates encoder state, and controls optional backlight.
+ * - Uses pointer checks before interacting with optional display/encoder objects.
+ */
 
 // DisplayBoard Implementation
+/**
+ * Function: DisplayBoard::DisplayBoard(lgfx::LGFX_Device* displayPtr, RotaryEncoder* encoderPtr, int8_t blPin, const String& name)
+ * Purpose: Construct a board wrapper by storing display/encoder pointers, backlight pin, and board name.
+ * Parameters:
+ * - lgfx::LGFX_Device* displayPtr: Display instance used by this board.
+ * - RotaryEncoder* encoderPtr: Encoder instance used by this board.
+ * - int8_t blPin: Backlight control pin value (-1 disables backlight control).
+ * - const String& name: Human-readable board name.
+ * Returns: None (constructor).
+ * Usage example: DisplayBoard board(&display, &encoder, 19, "Board 1");
+ * Warnings/constraints:
+ * - Pointers are stored as-is; constructor does not validate ownership/lifetime.
+ * - backlightOn defaults to true.
+ */
 DisplayBoard::DisplayBoard(lgfx::LGFX_Device* displayPtr, RotaryEncoder* encoderPtr,
-                           uint8_t blPin, const String& name)
+                           int8_t blPin, const String& name)
     : display(displayPtr), encoder(encoderPtr), backlightPin(blPin),
       backlightOn(true), boardName(name) {}
 
+/**
+ * Function: DisplayBoard::begin()
+ * Purpose: Initialize display, encoder, and optional backlight pin.
+ * Parameters:
+ * - None.
+ * Returns: void.
+ * Usage example: board.begin();
+ * Warnings/constraints:
+ * - Display initialization runs only when display pointer is non-null.
+ * - Encoder initialization runs only when encoder pointer is non-null.
+ * - Backlight pin setup runs only when backlightPin != -1 comparison passes.
+ */
 void DisplayBoard::begin() {
     if (display) {
         display->init();
@@ -81,12 +58,32 @@ void DisplayBoard::begin() {
     }
 }
 
+/**
+ * Function: DisplayBoard::update()
+ * Purpose: Update encoder state for this board.
+ * Parameters:
+ * - None.
+ * Returns: void.
+ * Usage example: board.update();
+ * Warnings/constraints:
+ * - Does nothing when encoder pointer is null.
+ */
 void DisplayBoard::update() {
     if (encoder) {
         encoder->update();
     }
 }
 
+/**
+ * Function: DisplayBoard::setBacklight(bool on)
+ * Purpose: Store desired backlight state and write pin level when backlight pin is considered valid.
+ * Parameters:
+ * - bool on: true writes HIGH, false writes LOW.
+ * Returns: void.
+ * Usage example: board.setBacklight(false);
+ * Warnings/constraints:
+ * - Pin write occurs only when backlightPin != -1 comparison passes.
+ */
 void DisplayBoard::setBacklight(bool on) {
     backlightOn = on;
     if (backlightPin != -1) {
@@ -94,10 +91,30 @@ void DisplayBoard::setBacklight(bool on) {
     }
 }
 
+/**
+ * Function: DisplayBoard::toggleBacklight()
+ * Purpose: Invert stored backlight state and apply it via setBacklight().
+ * Parameters:
+ * - None.
+ * Returns: void.
+ * Usage example: board.toggleBacklight();
+ * Warnings/constraints:
+ * - Effective pin output depends on setBacklight() backlight pin condition.
+ */
 void DisplayBoard::toggleBacklight() {
     setBacklight(!backlightOn);
 }
 
+/**
+ * Function: DisplayBoard::clearDisplay()
+ * Purpose: Clear display contents to black.
+ * Parameters:
+ * - None.
+ * Returns: void.
+ * Usage example: board.clearDisplay();
+ * Warnings/constraints:
+ * - Does nothing when display pointer is null.
+ */
 void DisplayBoard::clearDisplay() {
     if (display) {
         display->fillScreen(TFT_BLACK);
