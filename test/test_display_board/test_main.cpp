@@ -14,6 +14,10 @@
 namespace {
 constexpr int8_t TEST_BACKLIGHT_PIN = 2;
 
+#ifndef RUN_MANUAL_DISPLAY_TESTS
+#define RUN_MANUAL_DISPLAY_TESTS 0
+#endif
+
 void print_manual_expectation(const char* message) {
     TEST_MESSAGE(message);
     Serial.print("[MANUAL CHECK] ");
@@ -53,8 +57,10 @@ void test_toggle_backlight_flips_internal_state() {
 void test_begin_configures_backlight_pin_and_sets_high() {
     DisplayBoard board(nullptr, nullptr, TEST_BACKLIGHT_PIN, "Backlight Board");
 
+#if RUN_MANUAL_DISPLAY_TESTS
     print_manual_expectation(
         "If TEST_BACKLIGHT_PIN drives a real display backlight, it should turn ON after begin().");
+#endif
 
     board.begin();
 
@@ -67,8 +73,10 @@ void test_set_backlight_writes_pin_level_when_configured() {
     DisplayBoard board(nullptr, nullptr, TEST_BACKLIGHT_PIN, "Backlight Write Board");
     board.begin();
 
+#if RUN_MANUAL_DISPLAY_TESTS
     print_manual_expectation(
         "After setBacklight(false), physical backlight should go OFF; after setBacklight(true), it should return ON.");
+#endif
 
     board.setBacklight(false);
     TEST_ASSERT_FALSE(board.backlightOn);
@@ -83,8 +91,10 @@ void test_begin_with_non_null_display_pointer_path() {
     lgfx::LGFX_Device display;
     DisplayBoard board(&display, nullptr, -1, "Display Board");
 
+#if RUN_MANUAL_DISPLAY_TESTS
     print_manual_expectation(
         "With a real initialized panel, begin() should initialize it, set rotation to 0, and clear screen to black.");
+#endif
 
     board.begin();
 
@@ -96,8 +106,10 @@ void test_clear_display_with_non_null_display_pointer_path() {
     lgfx::LGFX_Device display;
     DisplayBoard board(&display, nullptr, -1, "Display Clear Board");
 
+#if RUN_MANUAL_DISPLAY_TESTS
     print_manual_expectation(
         "With a real initialized panel, clearDisplay() should immediately paint the full screen black.");
+#endif
 
     board.clearDisplay();
 
@@ -148,6 +160,12 @@ void setup() {
     RUN_TEST(test_clear_display_is_safe_with_null_display);
     RUN_TEST(test_update_is_safe_with_null_encoder);
     RUN_TEST(test_begin_and_update_with_real_encoder_path);
+
+#if RUN_MANUAL_DISPLAY_TESTS
+    TEST_MESSAGE("Manual DisplayBoard visual checks are enabled.");
+#else
+    TEST_MESSAGE("Manual DisplayBoard visual checks skipped (set RUN_MANUAL_DISPLAY_TESTS=1 to enable).");
+#endif
 
     UNITY_END();
 }
