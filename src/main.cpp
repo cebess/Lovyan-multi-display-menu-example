@@ -109,6 +109,10 @@ void setup() {
     &autoRotate2,
   };
   configureMenus(menuContext);
+
+  // Bind each menu to its board's encoder input handler.
+  board1.bindMenu(&menu1, 2);
+  board2.bindMenu(&menu2, 2);
   
   // Set to landscape with font size 2 (larger text)
   menu1.setFontSize(2);
@@ -125,88 +129,14 @@ void setup() {
   menu2.redraw();
 }
 
-// Variables to track encoder state for menu control
-int lastPos1 = 0;
-int lastPos2 = 0;
-bool button1State = false;
-bool button2State = false;
-int encRemainder1 = 0;
-int encRemainder2 = 0;
-const int ENCODER_COUNTS_PER_MENU_STEP = 2;
-
 void loop() {
   // Update board states
   board1.update();
   board2.update();
-  
-  // Process encoder 1
-  RotaryEncoder* enc1 = board1.getEncoder();
-  if (enc1) {
-    int currentPos = enc1->getPosition();
-    if (currentPos != lastPos1) {
-      int diff = currentPos - lastPos1;
-      encRemainder1 += diff;
-      if (menu1.isEditingValue()) {
-        while (encRemainder1 >= ENCODER_COUNTS_PER_MENU_STEP) {
-          menu1.changeValue(1);
-          encRemainder1 -= ENCODER_COUNTS_PER_MENU_STEP;
-        }
-        while (encRemainder1 <= -ENCODER_COUNTS_PER_MENU_STEP) {
-          menu1.changeValue(-1);
-          encRemainder1 += ENCODER_COUNTS_PER_MENU_STEP;
-        }
-      } else {
-        while (encRemainder1 >= ENCODER_COUNTS_PER_MENU_STEP) {
-          menu1.selectDown();
-          encRemainder1 -= ENCODER_COUNTS_PER_MENU_STEP;
-        }
-        while (encRemainder1 <= -ENCODER_COUNTS_PER_MENU_STEP) {
-          menu1.selectUp();
-          encRemainder1 += ENCODER_COUNTS_PER_MENU_STEP;
-        }
-      }
-      lastPos1 = currentPos;
-    }
-    
-    // Check button press
-    if (enc1->isButtonPressed()) {
-      menu1.selectCurrentItem();
-    }
-  }
-  
-  // Process encoder 2
-  RotaryEncoder* enc2 = board2.getEncoder();
-  if (enc2) {
-    int currentPos = enc2->getPosition();
-    if (currentPos != lastPos2) {
-      int diff = currentPos - lastPos2;
-      encRemainder2 += diff;
-      if (menu2.isEditingValue()) {
-        while (encRemainder2 >= ENCODER_COUNTS_PER_MENU_STEP) {
-          menu2.changeValue(1);
-          encRemainder2 -= ENCODER_COUNTS_PER_MENU_STEP;
-        }
-        while (encRemainder2 <= -ENCODER_COUNTS_PER_MENU_STEP) {
-          menu2.changeValue(-1);
-          encRemainder2 += ENCODER_COUNTS_PER_MENU_STEP;
-        }
-      } else {
-        while (encRemainder2 >= ENCODER_COUNTS_PER_MENU_STEP) {
-          menu2.selectDown();
-          encRemainder2 -= ENCODER_COUNTS_PER_MENU_STEP;
-        }
-        while (encRemainder2 <= -ENCODER_COUNTS_PER_MENU_STEP) {
-          menu2.selectUp();
-          encRemainder2 += ENCODER_COUNTS_PER_MENU_STEP;
-        }
-      }
-      lastPos2 = currentPos;
-    }
-    
-    if (enc2->isButtonPressed()) {
-      menu2.selectCurrentItem();
-    }
-  }
+
+  // Process encoder input through board-owned handlers.
+  board1.processEncoderInput();
+  board2.processEncoderInput();
   
   // Update menu systems (they'll handle redraws)
   menu1.update();
