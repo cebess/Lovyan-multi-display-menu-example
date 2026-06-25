@@ -20,6 +20,8 @@ enum class ActionId {
     SUB_ITEM_2,
     ABOUT_1,
     STATUS_2,
+    CALL_OFFENSE_PLAY,
+    CALL_DEFENSE_PLAY,
 };
 
 // IDs for int32_t value bindings in MenuBuildContext.
@@ -58,36 +60,56 @@ struct MenuNodeDef {
     size_t childCount;
 };
 
-// Board 1 submenu descriptor table.
-const MenuNodeDef SUBMENU_1_ITEMS[] = {
-    {"Sub Item 1", NodeKind::ACTION, ActionId::SUB_ITEM_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"Sub Item 2", NodeKind::ACTION, ActionId::SUB_ITEM_2, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+// Pass plays submenu descriptor table.
+// "Over the middle" entry already aligned to MenuNodeDef; remaining passes follow the same pattern.
+const MenuNodeDef SUBMENU_PASS[] = {
+    {"Over the middle", NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Slant",           NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Out",             NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Post",            NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Hitch",           NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Go",              NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Screen",          NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Curl",            NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
 };
 
-// Board 1 root descriptor table.
-const MenuNodeDef ROOT_MENU_1[] = {
-    {"Flash Screen", NodeKind::ACTION, ActionId::FLASH_SCREEN_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"Sub Menu", NodeKind::SUBMENU, ActionId::FLASH_SCREEN_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, SUBMENU_1_ITEMS, sizeof(SUBMENU_1_ITEMS) / sizeof(SUBMENU_1_ITEMS[0])},
-    {"Brightness", NodeKind::VALUE, ActionId::FLASH_SCREEN_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 100, 5, nullptr, 0},
-    {"Auto Rotate", NodeKind::TOGGLE, ActionId::FLASH_SCREEN_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"About", NodeKind::ACTION, ActionId::ABOUT_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"test1", NodeKind::ACTION, ActionId::ABOUT_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"test2", NodeKind::ACTION, ActionId::ABOUT_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"test3", NodeKind::ACTION, ActionId::ABOUT_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"test4", NodeKind::ACTION, ActionId::ABOUT_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"test5", NodeKind::ACTION, ActionId::ABOUT_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"test6", NodeKind::ACTION, ActionId::ABOUT_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"test7", NodeKind::ACTION, ActionId::ABOUT_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-    {"test8", NodeKind::ACTION, ActionId::ABOUT_1, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
-
+// Run plays submenu descriptor table.
+const MenuNodeDef SUBMENU_RUN[] = {
+    {"Off Tackle",    NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Sweep",         NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Draw",          NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Counter",       NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Inside Zone",   NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Outside Zone",  NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Power",         NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Dive",          NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
 };
 
-// Board 2 root descriptor table.
-const MenuNodeDef ROOT_MENU_2[] = {
-    {"Flash Screen", NodeKind::ACTION, ActionId::FLASH_SCREEN_2, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
-    {"Brightness", NodeKind::VALUE, ActionId::FLASH_SCREEN_2, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 100, 5, nullptr, 0},
-    {"Auto Rotate", NodeKind::TOGGLE, ActionId::FLASH_SCREEN_2, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
-    {"Status", NodeKind::ACTION, ActionId::STATUS_2, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
+// Kick / special-teams plays submenu descriptor table.
+const MenuNodeDef SUBMENU_KICK[] = {
+    {"Kickoff",     NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Punt",        NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Field Goal",  NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+    {"Onside Kick", NodeKind::ACTION, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, nullptr, 0},
+};
+
+// Offense root descriptor table – Pass, Run, and Kick submenus for board 1.
+const MenuNodeDef OFFENSE_MENU[] = {
+    {"Pass", NodeKind::SUBMENU, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, SUBMENU_PASS, sizeof(SUBMENU_PASS) / sizeof(SUBMENU_PASS[0])},
+    {"Run",  NodeKind::SUBMENU, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, SUBMENU_RUN,  sizeof(SUBMENU_RUN)  / sizeof(SUBMENU_RUN[0])},
+    {"Kick", NodeKind::SUBMENU, ActionId::CALL_OFFENSE_PLAY, ValueBindingId::BRIGHTNESS_1, ToggleBindingId::AUTO_ROTATE_1, 0, 0, 0, SUBMENU_KICK, sizeof(SUBMENU_KICK) / sizeof(SUBMENU_KICK[0])},
+};
+
+// Defense root descriptor table for board 2.
+const MenuNodeDef DEFENSE_MENU[] = {
+    {"4-3 Base",      NodeKind::ACTION, ActionId::CALL_DEFENSE_PLAY, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
+    {"3-4 Base",      NodeKind::ACTION, ActionId::CALL_DEFENSE_PLAY, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
+    {"Cover 2",       NodeKind::ACTION, ActionId::CALL_DEFENSE_PLAY, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
+    {"Cover 3",       NodeKind::ACTION, ActionId::CALL_DEFENSE_PLAY, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
+    {"Blitz",         NodeKind::ACTION, ActionId::CALL_DEFENSE_PLAY, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
+    {"Man Coverage",  NodeKind::ACTION, ActionId::CALL_DEFENSE_PLAY, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
+    {"Zone Coverage", NodeKind::ACTION, ActionId::CALL_DEFENSE_PLAY, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
+    {"Prevent",       NodeKind::ACTION, ActionId::CALL_DEFENSE_PLAY, ValueBindingId::BRIGHTNESS_2, ToggleBindingId::AUTO_ROTATE_2, 0, 0, 0, nullptr, 0},
 };
 
 // Resolve VALUE binding IDs to concrete int32_t storage in the runtime context.
@@ -167,6 +189,24 @@ std::function<void()> buildAction(ActionId id, const MenuBuildContext& ctx) {
                 delay(1500);
                 ctx.menu2->redraw();
             };
+        case ActionId::CALL_OFFENSE_PLAY:
+            return [ctx]() {
+                ctx.display1->fillScreen(TFT_BLACK);
+                ctx.display1->setCursor(20, 50);
+                ctx.display1->setTextColor(TFT_GREEN);
+                ctx.display1->println("Play Called!");
+                delay(1500);
+                ctx.menu1->redraw();
+            };
+        case ActionId::CALL_DEFENSE_PLAY:
+            return [ctx]() {
+                ctx.display2->fillScreen(TFT_BLACK);
+                ctx.display2->setCursor(20, 50);
+                ctx.display2->setTextColor(TFT_CYAN);
+                ctx.display2->println("Defense Set!");
+                delay(1500);
+                ctx.menu2->redraw();
+            };
     }
 
     return nullptr;
@@ -208,8 +248,8 @@ std::vector<MenuItem*> buildMenuTree(const MenuNodeDef* defs, size_t count, cons
 
 // Build both board menus and attach them to their MenuSystem instances.
 void configureMenus(const MenuBuildContext& ctx) {
-    auto menu1Root = buildMenuTree(ROOT_MENU_1, sizeof(ROOT_MENU_1) / sizeof(ROOT_MENU_1[0]), ctx);
-    auto menu2Root = buildMenuTree(ROOT_MENU_2, sizeof(ROOT_MENU_2) / sizeof(ROOT_MENU_2[0]), ctx);
+    auto menu1Root = buildMenuTree(OFFENSE_MENU, sizeof(OFFENSE_MENU) / sizeof(OFFENSE_MENU[0]), ctx);
+    auto menu2Root = buildMenuTree(DEFENSE_MENU, sizeof(DEFENSE_MENU) / sizeof(DEFENSE_MENU[0]), ctx);
 
     ctx.menu1->setRootMenu(menu1Root);
     ctx.menu2->setRootMenu(menu2Root);
