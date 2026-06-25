@@ -1,0 +1,29 @@
+Running plays
+    Power: A heavy, physical play where a guard from the backside of the formation pulls across the line to act as a lead blocker through a specific gap, while a fullback or tight end kicks out the defensive end.
+    Counter: A misdirection play where the quarterback and running back fake a handoff in one direction, only for the back to cut back the opposite way, following a pulling guard and fullback who clear open a lane.
+    Trap: A quick-hitting interior run where an offensive lineman purposely leaves a defensive tackle unblocked. As that defender penetrates into the backfield, a pulling guard from the opposite side blindsides them from the flank (the "trap" block), opening a massive hole up the middle.
+    Isolation: A straightforward, downhill run where the fullback acts as a battering ram, targeting and blocking a specific linebacker one-on-one in a designated gap, with the tailback following right behind.
+    Inside Zone: A play where the entire offensive line steps laterally in unison toward the play side, blocking an area rather than a specific defender. The running back reads the blocks and looks for an internal seam to explode through.
+    Outside Zone (Stretch): Similar to the inside zone, but the offensive line flows hard toward the sideline. The running back runs parallel to the line of scrimmage, trying to outrun the defense to the perimeter or cutting back sharply if the defense overpursues.
+    Pitch: A perimeter run where the quarterback takes a quick snap and pitches or tosses the ball parallel to a running back who is already sprinting at top speed toward the outside edge of the field.
+    Sweep: A perimeter play where multiple offensive linemen (often both guards) pull out of their stances and sprint parallel to the line of scrimmage to act as a moving wall of lead blockers for the running back heading around the outside flank.
+    Read Option: A modern staple where the quarterback handles the snap and reads a designated unblocked defender (usually the defensive end). If the defender crashes inside to tackle the running back, the quarterback pulls the ball back and runs outside; if the defender stays wide, the quarterback hands it off.
+    Jet Sweep: A high-speed play where a wide receiver or slot back starts in pre-snap motion, running at full speed parallel to the line of scrimmage. The quarterback snaps the ball just as the receiver passes by, handing or soft-tossing it to them so they can hit the edge before the defense can react.
+    Short-yardage wedge: A play usually reserved for very short yardage situations, where the ball is forced through the defender's line.
+
+ Passing plays
+    Over the Middle: One receiver runs a deep dig or post to pull the linebackers backward, while a shallow receiver crosses right underneath them. The quarterback simply reads the linebacker: if he drops deep, throw it short; if he stays shallow, throw it behind him.
+    Halfback option: A play that includes a built-in backup plan. If the halfback looks up and realizes the pass coverage didn't break down, he can simply tuck the ball back in and run. If pass coverage breaks down, he throws it to the wide-open receiver downfield.
+    Four Verticals: A deep passing concept where four receivers sprint straight down the field, stretching the defensive secondary to its absolute breaking point.
+    Smash: A classic high-low route combination designed to stress a cornerback. The outside receiver runs a short hitch route, while the inside receiver runs a deeper corner route over the top.
+    Mesh: A staple of the "Air Raid" offense. Two receivers cross paths over the middle of the field at a shallow depth, literally passing within inches of each other to naturally rub off defenders.
+    Slant-Flat: A highly efficient West Coast offense concept. The outside receiver breaks sharply inside on a slant, while the inside receiver breaks toward the sideline on a flat route.
+    Sail: A three-level passing flood concept. It sends one receiver deep, one to an intermediate depth toward the sideline (the sail route), and one short into the flat to overwhelm zone coverage on one side of the field.
+    Stick: A quick-hitting play where a tight end or slot receiver runs straight upfield for a few yards, then abruptly turns and "sticks" in place, creating an easy, fast target for the quarterback.
+    Flea Flicker: A deceptive play where the quarterback hands the ball off to a running back, who tosses it back to the quarterback before reaching the line of scrimmage, setting up a deep pass downfield.
+    Hail Mary: A desperate, last-second play where the quarterback launches a maximum-distance pass into the end zone, hoping a group of waiting receivers can bring it down.
+    Hook and Lateral: A multi-stage play where a receiver runs a standard hook route, catches the ball, and immediately pitches (laterals) it to a trailing teammate sprinting past at full speed.
+
+Kicking plays:
+    Punt: A play used when the offense is too far away from the goal line to score, but they want to move the ball as far away from their own goal line as possible before giving the ball back to the other team.
+    Field goal: This usually occurs when the offense is close enough to the goal line to kick the ball through the uprights, but not close enough to reliably run a touchdown play.
