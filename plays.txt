@@ -1,0 +1,37 @@
+# Football Play Descriptions
+
+## Pass Plays
+Over the middle: A short or medium pass route over the center of the field, typically to a tight end or slot receiver.
+Slant: A quick inside diagonal route run by a receiver, useful against man coverage.
+Out: The receiver runs downfield then breaks sharply to the sideline; good for chain-moving yardage.
+Post: The receiver runs a deep diagonal toward the goal post; attacks single-high safety coverage.
+Hitch: A short route where the receiver runs 5-6 yards then stops and turns back to the quarterback.
+Go: A straight deep route down the sideline designed to beat the cornerback deep.
+Screen: A short pass behind the line of scrimmage with linemen releasing to block ahead of the ball carrier.
+Curl: The receiver runs 10-12 yards downfield then curls back toward the quarterback.
+
+## Run Plays
+Off Tackle: A run directed just outside the offensive tackle, targeting the edge of the defense.
+Sweep: A wide run with pulling linemen leading the ball carrier to the outside.
+Draw: A delayed run designed to look like a pass before the handoff; exploits an overpursuing pass rush.
+Counter: A misdirection run where the ball carrier steps one way before cutting back against the flow.
+Inside Zone: A zone-blocking run scheme up the interior with the back reading the blocks.
+Outside Zone: A stretch zone-blocking run to the perimeter with the back seeking a cutback lane.
+Power: A downhill run through the B gap or C gap with a lead fullback or pulling guard.
+Dive: A quick direct run through the A gap for short yardage.
+
+## Kick Plays
+Kickoff: Standard kick to begin the game or restart after a score.
+Punt: A kick on 4th down to flip field position.
+Field Goal: A place-kick attempt through the uprights worth 3 points.
+Onside Kick: A short kickoff designed to allow the kicking team to recover the ball.
+
+## Defense
+4-3 Base: Four defensive linemen and three linebackers; a balanced run-and-pass stopping front.
+3-4 Base: Three defensive linemen and four linebackers; disguises pressure and drops.
+Cover 2: Zone coverage with two safeties splitting the deep halves; corners play the flats.
+Cover 3: Zone coverage dividing the deep field into three zones; good against the deep ball.
+Blitz: Extra defenders are sent to pressure the quarterback beyond the standard four-man rush.
+Man Coverage: Each defender is assigned a specific offensive player to cover man-to-man.
+Zone Coverage: Defenders protect areas of the field rather than specific receivers.
+Prevent: A deep zone defense designed to stop large gains near the end of a half or game.
